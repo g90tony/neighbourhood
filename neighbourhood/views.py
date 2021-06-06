@@ -70,3 +70,41 @@ def events(request):
     return render(request, 'events.html', {'title': title, 'events': all_events})
     
     
+@login_required(login_url='/accounts/login/')
+def upcoming_events(request):
+    
+    current_user = Profile.objects.filter(user = request.user).first()
+    current_neighbourhood = current_user.neighbourhood
+    
+    all_events = Event.objects.filter(neighbourhood=current_neighbourhood).all()
+    
+    todays_date = date.today()
+    upcoming_events = list()
+    
+    for event in all_events:
+        if event.date > todays_date:
+            upcoming_events.append(event)
+    
+    title = 'Neighbourhood: Upcoming Events'
+    
+    return render(request, 'events.html', {'title': title, 'events': upcoming_events})
+
+
+@login_required(login_url='/accounts/login/')
+def past_events(request):
+    
+    current_user = Profile.objects.filter(user = request.user).first()
+    current_neighbourhood = current_user.neighbourhood
+    
+    all_events = Event.objects.filter(neighbourhood=current_neighbourhood).all()
+    
+    todays_date = date.today()
+    past_events = list()
+    
+    for event in all_events:
+        if event.date < todays_date:
+            past_events.append(event)
+    
+    title = 'Neighbourhood: Past Events'
+    
+    return render(request, 'events.html', {'title': title, 'events': past_events})
