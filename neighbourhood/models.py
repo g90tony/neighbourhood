@@ -50,7 +50,7 @@ class Business(models.Model):
         
 class TextPost(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    neighbourhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE)
+    neighbourhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE, default=None)
     create_on = models.DateField(auto_now_add=True)
     text_content = models.TextField()
     
@@ -62,7 +62,7 @@ class TextPost(models.Model):
         
 class ImagePost(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    neighbourhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE)
+    neighbourhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE, default=None)
     create_on = models.DateField(auto_now_add=True)
     text_content = models.TextField()
     image = CloudinaryField('image', default=None)
