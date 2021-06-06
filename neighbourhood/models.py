@@ -26,14 +26,14 @@ class Neighbourhood(models.Model):
 
 class Profile(models.Model):
     names = models.CharField(max_length=255)
-    neighborhood_id = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE)
+    neighborhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE)
     avatar = CloudinaryField('image', default=None)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
 class Business(models.Model):
     business_name = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    neighborhood_id = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE)
+    neighborhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE)
     Business_email = models.EmailField()
     
     def create_business(self):
@@ -50,11 +50,25 @@ class Business(models.Model):
         
 class TextPost(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    neighbourhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE)
     create_on = models.DateField(auto_now_add=True)
     text_content = models.TextField()
+    
+    def create_post(self):
+        self.save()
+    
+    def get_neighbourhood_posts(self, neighbourhood):
+        return self.objects.filter(neighbourhood = neighbourhood).all()
         
 class ImagePost(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    neighbourhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE)
     create_on = models.DateField(auto_now_add=True)
     text_content = models.TextField()
     image = CloudinaryField('image', default=None)
+    
+    def create_post(self):
+        self.save()
+    
+    def get_neighbourhood_posts(self, neighbourhood):
+        return self.objects.filter(neighbourhood = neighbourhood).all()
