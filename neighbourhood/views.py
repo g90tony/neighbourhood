@@ -47,3 +47,26 @@ def index(request):
     
     return render(request, 'index.html', {'title': title, 'posts': sorted_posts, 'events': upcoming_events})
 
+
+@login_required(login_url='/accounts/login/')
+def events(request):
+    
+    current_user = Profile.objects.filter(user = request.user).first()
+    current_neighbourhood = current_user.neighbourhood
+    
+    if request.method == 'POST':
+        new_event_title = request.POST.get('title')
+        new_event_location = request.POST.get('location')
+        new_event_date = request.POST.get('date')
+        
+        new_event = Event(title = new_event_title, location = new_event_location, date = new_event_date, neighbourhood = current_neighbourhood)
+        new_event.create_event()  
+        
+        return redirect('/events')      
+    
+    all_events = Event.objects.filter(neighbourhood=current_neighbourhood).all()
+    title = 'Neighbourhood: All Events'
+    
+    return render(request, 'events.html', {'title': title, 'events': all_events})
+    
+    
