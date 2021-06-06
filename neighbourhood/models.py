@@ -72,3 +72,16 @@ class ImagePost(models.Model):
     
     def get_neighbourhood_posts(self, neighbourhood):
         return self.objects.filter(neighbourhood = neighbourhood).all()
+
+
+class Event(models.Model):
+    title = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+    date = models.DateField(default=None)
+    neighbourhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE) 
+    
+    def create_event(self):
+        self.save()
+    
+    def __str__(self):
+      return self.title  
