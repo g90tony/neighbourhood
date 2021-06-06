@@ -28,7 +28,7 @@ class Profile(models.Model):
     names = models.CharField()
     neighborhood_id = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE)
     avatar = CloudinaryField('image', default=None)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     
 class Business(models.Model):
     business_name = models.CharField()
