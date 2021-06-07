@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from datetime import date
 from django.contrib.auth.decorators import login_required
 
-from .models import Business, Event, ImagePost, Neighbourhood, TextPost, Profile
+from .models import Business, Contact, Event, ImagePost, Neighbourhood, TextPost, Profile
 # Create your views here.
 @login_required(login_url='/accounts/login/')
 def index(request):
@@ -107,4 +107,68 @@ def past_events(request):
     
     title = 'Neighbourhood: Past Events'
     
-    return render(request, 'events.html', {'title': title, 'events': past_events})
+    return render(request, 'events.html', {'title': title, 'events': past_events}) @login_required(login_url='/accounts/login/')
+
+
+
+@login_required(login_url='/accounts/login/')
+def businesses(request):
+    
+    current_user = Profile.objects.filter(user = request.user).first()
+    current_neighbourhood = current_user.neighbourhood
+    
+    if request.method == 'POST':
+        new_business_name = request.POST.get('business_name')
+        new_user = current_user
+        new_neighborhood = current_neighbourhood
+        new_business_email = request.POST.get('business_email')
+        
+        new_business = Business(business_name = new_business_name, user = new_user, neighborhood = new_neighborhood, business_email = new_business_email)
+        new_business.create_business()
+        
+        return redirect('/businesses')      
+    
+    all_businesses = Business.objects.filter(neighbourhood=current_neighbourhood).all()
+    title = 'Neighbourhood: All Businesses'
+    
+    return render(request, 'businesses.html', {'title': title, 'businesses': all_businesses})
+    
+
+
+
+@login_required(login_url='/accounts/login/')
+def busines_search(request, search_query):
+    current_user = Profile.objects.filter(user = request.user).first()
+    current_neighbourhood = current_user.neighbourhood
+    
+    if request.method is 'POST':
+        query_results = Business.objects.filter(business_name = search_query, neighbourhood=current_neighbourhood).all()
+        
+        title= 'Neighbourhood: Business Search Results'
+        
+        return render(request, 'business_search.html', {'title': title, "results": query_results})
+    
+    return redirect('/businesses')
+
+@login_required(login_url='/accounts/login/')
+def contacts(request):
+    
+    current_user = Profile.objects.filter(user = request.user).first()
+    current_neighbourhood = current_user.neighbourhood
+    
+    if request.method == 'POST':
+        new_contact_name = request.POST.get('contact_name')
+        new_neighborhood = current_neighbourhood
+        new_contact_email = request.POST.get('contact_email')
+        new_contact_phone_number = request.POST.get('contact_pnumber')
+        
+        new_business = Contact(name = new_contact_name,  neighborhood = new_neighborhood, email = new_contact_email, phone_number=new_contact_phone_number)
+        new_business.create_business()
+        
+        return redirect('/businesses')      
+    
+    all_businesses = Business.objects.filter(neighbourhood=current_neighbourhood).all()
+    title = 'Neighbourhood: All Businesses'
+    
+    return render(request, 'businesses.html', {'title': title, 'businesses': all_businesses})
+    
