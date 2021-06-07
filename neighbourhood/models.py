@@ -85,3 +85,13 @@ class Event(models.Model):
     
     def __str__(self):
       return self.title  
+  
+  
+class Contact(models.Model):
+    name = models.CharField(max_length=255)
+    neighborhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE)
+    email = models.EmailField()
+    phone_number = models.IntegerField()
+    
+    def __str__(self):
+        return self.name
