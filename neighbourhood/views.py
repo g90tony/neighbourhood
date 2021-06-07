@@ -134,14 +134,12 @@ def businesses(request):
     return render(request, 'businesses.html', {'title': title, 'businesses': all_businesses})
     
 
-
-
 @login_required(login_url='/accounts/login/')
 def busines_search(request, search_query):
     current_user = Profile.objects.filter(user = request.user).first()
     current_neighbourhood = current_user.neighbourhood
     
-    if request.method is 'POST':
+    if request.method == 'POST':
         query_results = Business.objects.filter(business_name = search_query, neighbourhood=current_neighbourhood).all()
         
         title= 'Neighbourhood: Business Search Results'
