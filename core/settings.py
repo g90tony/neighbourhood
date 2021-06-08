@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'neighbourhood.apps.NeighbourhoodConfig',
     'cloudinary',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
