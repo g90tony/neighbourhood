@@ -1,0 +1,32 @@
+{% extends "django_registration/base.html" %}
+
+<!-- load bootstrap -->
+{% load bootstrap4 %}
+<!-- start of content block -->
+{% block content %}
+
+<form action="/accounts/login/" method="post">
+  <p class="subheading-black primary-text">Welcome Back</p>
+  <p class="body-sm-regular">
+    Please user your username and password to continue
+  </p>
+  {% csrf_token %} {% bootstrap_form form %}
+  <input type="submit" class="secondary-button" value="Login" />
+  <p
+    class="mx-auto"
+    style="
+      font-family: 'Century Gothic Bold';
+      text-align: center;
+      font-size: 12px;
+    "
+  >
+    If you don't have an account,
+    <span
+      ><a class="secondary-text" href="/accounts/register/">click here</a></span
+    >
+    to register.
+  </p>
+</form>
+<input type="hidden" name="next" value="{{next}}" />
+
+{% endblock content %}
