@@ -3,8 +3,8 @@ from django.db import models
 from cloudinary.models import CloudinaryField
 # Create your models here.
 class Neighbourhood(models.Model):
-    neighbourhood_name = models.CharField(max_length=255)
-    neighborhood_location = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
     occupants_count = models.IntegerField(default=0)
     admin_foreign_key = models.ForeignKey(User, on_delete=models.CASCADE)
     
@@ -29,6 +29,9 @@ class Profile(models.Model):
     neighborhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE)
     avatar = CloudinaryField('image', default=None)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    def create_profile(self):
+        self.save()
     
 class Business(models.Model):
     business_name = models.CharField(max_length=255)
