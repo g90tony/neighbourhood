@@ -2,19 +2,18 @@
 
 <!-- start of content block -->
 {% block content %}
+<div class="content-header">
+  <button
+    id="open-sidebar"
+    type="button"
+    class="secondary-button body-xl-regular"
+    style="width: auto; margin: auto 20px; padding: 0 5px"
+  >
+    <i class="fas fa-bars"></i>
+  </button>
+  <p class="body-xl-black primary-text">Share with the community</p>
+</div>
 <div class="content">
-  <div class="content-header">
-    <button
-      id="open-sidebar"
-      type="button"
-      class="secondary-button body-xl-regular"
-      style="width: auto; margin: auto 20px; padding: 0 5px"
-    >
-      <i class="fas fa-bars"></i>
-    </button>
-    <p class="body-xl-black primary-text">Share with the community</p>
-  </div>
-
   <div class="status-update">
     <form action="" class="light-background" style="padding: 10px; width: 90%">
       <textarea
@@ -53,7 +52,7 @@
         </div>
         <div class="post-content-container">
           <p class="post-content-username">{{post.profile.user.username}}</p>
-          <p class="post-content-time">{{post.create_on}}</p>
+          <p class="post-content-time">{{post.create_on | timesince}}</p>
           <p class="post-content-body">{{post.text_content}}</p>
         </div>
       </div>
@@ -85,20 +84,20 @@
   </div>
 </div>
 
+<div class="form-header">
+  <p class="body-xl-black primary-text">Todays Events</p>
+</div>
 <div class="form">
-  <div class="form-header">
-    <p class="body-xl-black primary-text">Todays Events</p>
-  </div>
   <div class="grid-container">
     {% if events %} {% for event in events %}
     <div class="grid-card">
       <p class="grid-card-header">{{event.title}}</p>
-      <p class="grid-card-date">{{event.date | date: "l F Y"}}</p>
+      <p class="grid-card-date">{{event.date | date:'l F Y'}}</p>
       <p class="grid-card-body">Location: {{event.location}}</p>
     </div>
     {% endfor %} {% else %}
+    <p class="secondary-text body-xl-bold">There are no events today</p>
   </div>
-  <p class="secondary-text body-xl-bold">There are no events today</p>
   {% endif %}
 </div>
 {% endblock content %}

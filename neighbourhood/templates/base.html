@@ -5,10 +5,11 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-     {% if title %}
+    {% if title %}
     <title>{{title}}</title>
     {% else %}
     <title>Neighbourhood</title>
+    {% endif %}
 
     <link rel="stylesheet" href="{% static 'css/colors.css' %}" />
     <link rel="stylesheet" href="{% static 'css/components.css' %}" />
@@ -19,7 +20,11 @@
   <body class="light-background">
     <div class="sidebar" id="sidebar">
       <div class="sidebar-user">
-        <img src="images/user_avatar.png" alt="" class="user-avatar" />
+        <img
+          src="{% static 'images/user_avatar.png' %}"
+          alt=""
+          class="user-avatar"
+        />
         <p class="body-md-bold white-text">Manuel Runte</p>
         <button
           id="close-sidebar"
@@ -32,20 +37,20 @@
       </div>
 
       <div class="sidebar-nav">
-        <a href="{% url 'neighbourhood:Home' %}"" class="sidebar-nav-item">
-          <img src="images/feed.png" alt="" />
+        <a href="/" class="sidebar-nav-item">
+          <img src="{% static 'images/feed.png' %}" alt="" />
           <p>Feed</p>
         </a>
-        <a href="{% url 'neighbourhood:All Events' %}"" class="sidebar-nav-item">
-          <img src="images/events.png" alt="" />
+        <a href="/events" class="sidebar-nav-item">
+          <img src="{% static 'images/events.png' %}" alt="" />
           <p>Events</p>
         </a>
-        <a href="{% url 'neighbourhood:All Businesses' %}"" class="sidebar-nav-item">
-          <img src="images/businesses.png" alt="" />
+        <a href="/businesses" class="sidebar-nav-item">
+          <img src="{% static 'images/businesses.png' %}" alt="" />
           <p>Businesses</p>
         </a>
-        <a href="{% url '' %}"" class="sidebar-nav-item">
-          <img src="images/contacts.png" alt="" />
+        <a href="/contacts" class="sidebar-nav-item">
+          <img src="{% static 'images/contacts.png' %}" alt="" />
           <p>Contacts</p>
         </a>
       </div>
@@ -69,6 +74,6 @@
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
       crossorigin="anonymous"
     ></script>
-    <script src="js/sidebar.js"></script>
+    <script src="{% static 'js/sidebar.js' %}"></script>
   </body>
 </html>

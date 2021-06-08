@@ -2,25 +2,21 @@
 
 <!-- start of content block -->
 {% block content %}
+<div class="content-header">
+  <button
+    id="open-sidebar"
+    type="button"
+    class="secondary-button body-xl-regular"
+    style="width: auto; margin: auto 20px; padding: 0 5px"
+  >
+    <i class="fas fa-bars"></i>
+  </button>
+  <p class="body-xl-black primary-text">Neighbourhood Businesses</p>
+</div>
 <div class="content">
-  <div class="content-header">
-    <button
-      id="open-sidebar"
-      type="button"
-      class="secondary-button body-xl-regular"
-      style="width: auto; margin: auto 20px; padding: 0 5px"
-    >
-      <i class="fas fa-bars"></i>
-    </button>
-    <p class="body-xl-black primary-text">Neighbourhood Businesses</p>
-  </div>
   <div class="grid-container" style="width: 100%; flex-flow: row wrap">
     <div class="grid-bar-container white-background">
-      <form
-        action="{% url 'neighbourhood:Business Search' %}"
-        method="POST"
-        style="padding: 0"
-      >
+      <form action="/businesses/search" method="POST" style="padding: 0">
         <input
           type="search"
           style="width: 300px"
@@ -43,54 +39,46 @@
     </p>
     {% endif %}
   </div>
-
-  <div class="form">
-    <div class="form-header">
-      <p class="body-xl-black primary-text">Register Business</p>
-    </div>
-    <div class="form-container" style="align-items: flex-start; width: 300px">
-      <form
-        action="{% url 'neighbourhood:Businesses' %}"
-        method="POST"
-        enctype="multipart/form-data"
-        style="width: 250px"
-      >
-        <div class="form-group">
-          <label for="title">Business Name</label
-          ><input
-            type="text"
-            id="name"
-            name="name"
-            placeholder="Business Name"
-          />
-        </div>
-        <div class="form-group">
-          <label for="email">Business Email</label
-          ><input
-            type="email"
-            name="email"
-            id="email"
-            placeholder="Community Center"
-          />
-        </div>
-        <div class="form-group">
-          <label for="bio">Business Bio</label
-          ><textarea
-            type="text"
-            id="bio"
-            name="bio"
-            placeholder="Community Center"
-          />
-        </div>
-        <div class="form-group">
-          <label for="logo">Business Logo</label
-          ><input type="file" name="logo" id="logo" />
-        </div>
-        <button type="submit" class="secondary-button">
-          Register Business
-        </button>
-      </form>
-    </div>
-  </div>
-  {% endblock content %}
 </div>
+<div class="form-header">
+  <p class="body-xl-black primary-text">Register Business</p>
+</div>
+<div class="form">
+  <div class="form-container" style="align-items: flex-start; width: 300px">
+    <form
+      action="/businesses"
+      method="POST"
+      enctype="multipart/form-data"
+      style="width: 250px"
+    >
+      <div class="form-group">
+        <label for="title">Business Name</label
+        ><input type="text" id="name" name="name" placeholder="Business Name" />
+      </div>
+      <div class="form-group">
+        <label for="email">Business Email</label
+        ><input
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Community Center"
+        />
+      </div>
+      <div class="form-group">
+        <label for="bio">Business Bio</label
+        ><textarea
+          type="text"
+          id="bio"
+          name="bio"
+          placeholder="Community Center"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label for="logo">Business Logo</label
+        ><input type="file" name="logo" id="logo" />
+      </div>
+      <button type="submit" class="secondary-button">Register Business</button>
+    </form>
+  </div>
+</div>
+{% endblock content %}

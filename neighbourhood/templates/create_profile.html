@@ -1,0 +1,57 @@
+{% extends "django_registration/base.html" %}
+
+<!-- load bootstrap -->
+{% load bootstrap4 %}
+<!-- start of content block -->
+{% block content %}
+
+<form action="/profile/create" enctype="multipart/form-data" method="post">
+  <p class="subheading-black primary-text">Create a profile</p>
+  <p class="body-sm-regular">
+    Welcome to Neighbourhood, create your profile to continue
+  </p>
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="names">First and Last Names</label
+    ><input type="text" name="names" id="names" placeholder="John Doe" />
+  </div>
+  <div class="form-group">
+    <label for="neighborhood">Neighborhood</label
+    ><select
+      type="text"
+      name="neighborhood"
+      id="neighborhood"
+      placeholder="Community Center"
+    >
+      {% if neighbourhoods %}
+      <option default>Select a Neighbourhood</option>
+      {% for neighbourhood in neighbourhoods %}
+      <option value="{{neighbourhood.id}}">{{neighbourhood.name}}</option>
+      {% endfor %} {% else %}
+      <option default>Please wait as we add neighbourhoods</option>
+      {% endif %}
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="avatar">Profile Picture</label
+    ><input name="avatar" id="avatar" type="file" accept="image/*" />
+  </div>
+  <button type="submit" class="secondary-button">Create Profile</button>
+  <p
+    class="mx-auto"
+    style="
+      font-family: 'Century Gothic Bold';
+      text-align: center;
+      font-size: 12px;
+    "
+  >
+    If you don't have an account,
+    <span
+      ><a class="secondary-text" href="/accounts/register/">click here</a></span
+    >
+    to register.
+  </p>
+</form>
+<input type="hidden" name="next" value="{{next}}" />
+
+{% endblock content %}
