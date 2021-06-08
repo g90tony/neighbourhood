@@ -8,7 +8,11 @@ from .models import Business, Contact, Event, ImagePost, Neighbourhood, TextPost
 def index(request):
     
     current_user = Profile.objects.filter(user = request.user).first()
-    current_neighbourhood = current_user.neighbourhood
+    
+    if current_user is None:
+        return redirect('/profile/create')
+    
+    current_neighbourhood = current_user.neighborhood
     
     if request.method == 'POST':
         new_post_text_content = request.POST.get('content')
@@ -23,8 +27,8 @@ def index(request):
             new_text_post.create_post()
             return redirect('/')
             
-    all_text_posts = TextPost.get_neighbourhood_posts()
-    all_image_posts = ImagePost.get_neighbourhood_posts()
+    all_text_posts = TextPost.get_neighbourhood_posts(TextPost, current_neighbourhood)
+    all_image_posts = ImagePost.get_neighbourhood_posts(ImagePost, current_neighbourhood)
     
     all_posts = dict()
     
@@ -48,11 +52,36 @@ def index(request):
     return render(request, 'index.html', {'title': title, 'posts': sorted_posts, 'events': upcoming_events})
 
 
+
+@login_required(login_url='/accounts/login/')
+def create_profile(request):
+    
+    if request.method == 'POST':
+        new_profile_names = request.POST.get('names')
+        new_neighborhood_id = request.POST.get('neighborhood')
+        new_profile_avatar = request.FILES['avatar']
+        
+        new_profile_neighbourhood = Neighbourhood.objects.filter(id = new_neighborhood_id).first()
+        
+        new_profile = Profile(names = new_profile_names, neighborhood = new_profile_neighbourhood, user = request.user, avatar = new_profile_avatar)
+        new_profile.create_profile()  
+        
+        return redirect('/')      
+    
+    title = "Neighbourhood: Create Profile"
+    all_neighbourhoods = Neighbourhood.objects.all()
+    
+    return render(request, 'create_profile.html', {'title': title, 'neighbourhoods': all_neighbourhoods})
+ 
+        
+
+
+
 @login_required(login_url='/accounts/login/')
 def events(request):
     
     current_user = Profile.objects.filter(user = request.user).first()
-    current_neighbourhood = current_user.neighbourhood
+    current_neighbourhood = current_user.neighborhood
     
     if request.method == 'POST':
         new_event_title = request.POST.get('title')
@@ -74,7 +103,7 @@ def events(request):
 def upcoming_events(request):
     
     current_user = Profile.objects.filter(user = request.user).first()
-    current_neighbourhood = current_user.neighbourhood
+    current_neighbourhood = current_user.neighborhood
     
     all_events = Event.objects.filter(neighbourhood=current_neighbourhood).all()
     
@@ -94,7 +123,7 @@ def upcoming_events(request):
 def past_events(request):
     
     current_user = Profile.objects.filter(user = request.user).first()
-    current_neighbourhood = current_user.neighbourhood
+    current_neighbourhood = current_user.neighborhood
     
     all_events = Event.objects.filter(neighbourhood=current_neighbourhood).all()
     
@@ -115,7 +144,7 @@ def past_events(request):
 def businesses(request):
     
     current_user = Profile.objects.filter(user = request.user).first()
-    current_neighbourhood = current_user.neighbourhood
+    current_neighbourhood = current_user.neighborhood
     
     if request.method == 'POST':
         new_business_name = request.POST.get('business_name')
@@ -128,7 +157,7 @@ def businesses(request):
         
         return redirect('/businesses')      
     
-    all_businesses = Business.objects.filter(neighbourhood=current_neighbourhood).all()
+    all_businesses = Business.objects.filter(neighborhood=current_neighbourhood).all()
     title = 'Neighbourhood: All Businesses'
     
     return render(request, 'businesses.html', {'title': title, 'businesses': all_businesses})
@@ -137,7 +166,7 @@ def businesses(request):
 @login_required(login_url='/accounts/login/')
 def busines_search(request, search_query):
     current_user = Profile.objects.filter(user = request.user).first()
-    current_neighbourhood = current_user.neighbourhood
+    current_neighbourhood = current_user.neighborhood
     
     if request.method == 'POST':
         query_results = Business.objects.filter(business_name = search_query, neighbourhood=current_neighbourhood).all()
@@ -152,7 +181,7 @@ def busines_search(request, search_query):
 def contacts(request):
     
     current_user = Profile.objects.filter(user = request.user).first()
-    current_neighbourhood = current_user.neighbourhood
+    current_neighbourhood = current_user.neighborhood
     
     if request.method == 'POST':
         new_contact_name = request.POST.get('contact_name')
