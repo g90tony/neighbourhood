@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neighbourhood Prototype</title>
+
+    <link rel="stylesheet" href="{% static 'css/colors.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/components.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/typography.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/media-queries.css' %}" />
+  </head>
+  <body class="light-background">
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-user">
+        <img src="images/user_avatar.png" alt="" class="user-avatar" />
+        <p class="body-md-bold white-text">Manuel Runte</p>
+        <button
+          id="close-sidebar"
+          type="button"
+          class="secondary-button"
+          style="width: auto"
+        >
+          X
+        </button>
+      </div>
+
+      <div class="sidebar-nav">
+        <a href="{% url 'neighbourhood:Home' %}"" class="sidebar-nav-item">
+          <img src="images/feed.png" alt="" />
+          <p>Feed</p>
+        </a>
+        <a href="{% url 'neighbourhood:All Events' %}"" class="sidebar-nav-item">
+          <img src="images/events.png" alt="" />
+          <p>Events</p>
+        </a>
+        <a href="{% url 'neighbourhood:All Businesses' %}"" class="sidebar-nav-item">
+          <img src="images/businesses.png" alt="" />
+          <p>Businesses</p>
+        </a>
+        <a href="{% url '' %}"" class="sidebar-nav-item">
+          <img src="images/contacts.png" alt="" />
+          <p>Contacts</p>
+        </a>
+      </div>
+
+      <div class="sidebar-buttons"></div>
+    </div>
+    <div class="root-container">
+      <!-- start of content block -->
+      {% block content %}
+      <!-- end of content block -->
+      {% endblock content %}
+    </div>
+
+    <script
+      src="https://kit.fontawesome.com/a872bbb5df.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/sidebar.js"></script>
+  </body>
+</html>

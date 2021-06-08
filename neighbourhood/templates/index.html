@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+<!-- start of content block -->
+{% block content %}
+<div class="content">
+  <div class="content-header">
+    <button
+      id="open-sidebar"
+      type="button"
+      class="secondary-button body-xl-regular"
+      style="width: auto; margin: auto 20px; padding: 0 5px"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+    <p class="body-xl-black primary-text">Share with the community</p>
+  </div>
+
+  <div class="status-update">
+    <form action="" class="light-background" style="padding: 10px; width: 90%">
+      <textarea
+        name=""
+        id=""
+        cols="30"
+        rows="5"
+        class="white-background secondary-text"
+        style="padding: 10px"
+        placeholder="Whats on your mind..."
+      ></textarea>
+    </form>
+    <div class="status-action">
+      <img src="images/camera_icon.png" alt="" class="action-icon" /><button
+        class="secondary-button"
+        style="width: fit-content"
+      >
+        POST
+      </button>
+    </div>
+  </div>
+
+  <div class="post-container">
+    {% if posts %}
+    <!-- start of for loop -->
+    {% for post in posts %}
+    <!-- check if the post is an image post -->
+    {% if post.image.url %}
+    <div class="post-item">
+      <div class="post-image-container">
+        <img src="{{post.image.url}}" alt="" class="post-image" />
+      </div>
+      <div class="post-main-container">
+        <div class="post-avatar-container">
+          <img src="{{post.profile.avatar.url}}" alt="" class="post-avatar" />
+        </div>
+        <div class="post-content-container">
+          <p class="post-content-username">{{post.profile.user.username}}</p>
+          <p class="post-content-time">{{post.create_on}}</p>
+          <p class="post-content-body">{{post.text_content}}</p>
+        </div>
+      </div>
+    </div>
+    {% else %}
+
+    <div class="post-item">
+      <div class="post-main-container">
+        <div class="post-avatar-container">
+          <img src="{{post.profile.avatar.url}}" alt="" class="post-avatar" />
+        </div>
+        <div class="post-content-container">
+          <p class="post-content-username">{{post.profile.user.username}}</p>
+          <p class="post-content-time">{{post.create_on}}</p>
+          <p class="post-content-body">{{post.text_content}}</p>
+        </div>
+      </div>
+    </div>
+
+    {% endif %}
+    <!-- end of forl loop -->
+    {% endfor %}
+    <!-- start of else -->
+    {% else %}
+    <p class="secondary-text body-xl-bold">
+      There are no posts in your neighbourhood.
+    </p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="form">
+  <div class="form-header">
+    <p class="body-xl-black primary-text">Todays Events</p>
+  </div>
+  <div class="grid-container">
+    {% if events %} {% for event in events %}
+    <div class="grid-card">
+      <p class="grid-card-header">{{event.title}}</p>
+      <p class="grid-card-date">{{event.date | date: "l F Y"}}</p>
+      <p class="grid-card-body">Location: {{event.location}}</p>
+    </div>
+    {% endfor %} {% else %}
+  </div>
+  <p class="secondary-text body-xl-bold">There are no events today</p>
+  {% endif %}
+</div>
+{% endblock content %}
